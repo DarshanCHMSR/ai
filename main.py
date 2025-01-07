@@ -1,11 +1,16 @@
 import streamlit as st
 import tensorflow as tf
+from tensorflow import lite
 import numpy as np
 
 
 #Tensorflow Model Prediction
 def model_prediction(test_image):
-    model = tf.keras.models.load_model("trained_plant_disease_model.zip")
+    model = tf.keras.models.load_model("trained_plant_disease_model.keras")
+    converter = lite.TFLiteConverter.from_keras_model(model)
+    tflite_model = converter.convert()
+    with open("trained_plant_disease_model.tflite", "wb") as f:
+        f.write(tflite_model)
     image = tf.keras.preprocessing.image.load_img(test_image,target_size=(128,128))
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
     input_arr = np.array([input_arr]) #convert single image to batch
