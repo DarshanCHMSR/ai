@@ -2,15 +2,31 @@ import streamlit as st
 import tensorflow as tf
 from tensorflow import lite
 import numpy as np
+import requests
+import os
 
 
 #Tensorflow Model Prediction
 def model_prediction(test_image):
-    model = tf.keras.models.load_model("trained_plant_disease_model.keras")
-    converter = lite.TFLiteConverter.from_keras_model(model)
-    tflite_model = converter.convert()
-    with open("trained_plant_disease_model.tflite", "wb") as f:
-        f.write(tflite_model)
+    MODEL_URL = "https://drive.google.com/file/d/12ShlfEn08lmkM0MhI-R_tD2ewgb2LpXu/view?usp=drive_link"
+    MODEL_PATH = "trained_plant_disease_model.keras"
+    def download_model():
+        if not os.path.exists(MODEL_PATH):
+            print("Downloading model...")
+            response = requests.get(MODEL_URL, stream=True)
+            with open(MODEL_PATH, "wb") as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+            print("Model downloaded successfully.")
+
+# Load the model
+    download_model()
+    model = tf.keras.models.load_model(MODEL_PATH)
+    # converter = lite.TFLiteConverter.from_keras_model(model)
+    # tflite_model = converter.convert()
+    # with open("trained_plant_disease_model.tflite", "wb") as f:
+    #     f.write(tflite_model)
     image = tf.keras.preprocessing.image.load_img(test_image,target_size=(128,128))
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
     input_arr = np.array([input_arr]) #convert single image to batch
