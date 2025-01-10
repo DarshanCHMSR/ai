@@ -10,7 +10,9 @@ import os
 #Tensorflow Model Prediction
 def model_prediction(test_image):
     MODEL_URL = "https://drive.google.com/file/d/12ShlfEn08lmkM0MhI-R_tD2ewgb2LpXu/view?usp=drive_link"
-    MODEL_PATH = "trained_plant_disease_model.keras"
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    MODEL_PATH = os.path.join(BASE_DIR, "trained_plant_disease_model.keras")
+
     def download_model():
         if not os.path.exists(MODEL_PATH):
             print("Downloading model...")
