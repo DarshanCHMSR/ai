@@ -1,9 +1,10 @@
 # TensorFlow version 2.10.0 requires Python <3.11
-tensorflow==2.10.0; python_version >= '3.7' and python_version < '3.11'
+tensorflow==2.10.0
+streamlit==1.22.0
 scikit-learn
 numpy
 matplotlib
 seaborn
 pandas
-streamlit
+
 librosa
