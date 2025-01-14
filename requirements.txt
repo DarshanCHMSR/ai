@@ -1,5 +1,5 @@
-python_version==3.10
-tensorflow==2.10.0
+# TensorFlow version 2.10.0 requires Python <3.11
+tensorflow==2.10.0; python_version >= '3.7' and python_version < '3.11'
 scikit-learn
 numpy
 matplotlib
